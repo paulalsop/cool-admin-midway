@@ -74,7 +74,8 @@ export class BaseSysLoginService extends BaseService {
       if (user) {
         // 校验用户状态及密码
         if (user.status === 0 || user.password !== md5(password)) {
-          throw new CoolCommException(this.i18nService.translate('mmbzq',{locale: 'en_US',}));
+          // throw new CoolCommException(this.i18nService.translate('mmbzq',{locale: 'en_US',}));
+          throw new CoolCommException(this.i18nService.translate('mmbzq'));
           // throw new CoolCommException('账户或密码不正确~');
         }
       } else {

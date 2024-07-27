@@ -1,12 +1,28 @@
 import { CoolConfig } from '@cool-midway/core';
-import { MidwayConfig } from '@midwayjs/core';
+import { FORMAT, MidwayConfig } from '@midwayjs/core';
 import { CoolCacheStore } from '@cool-midway/core';
+
 
 // redis缓存
 // import { redisStore } from 'cache-manager-ioredis-yet';
 
 export default {
   // use for cookie sign key, should change to your own and keep security
+  mongoose: {
+    dataSource: {
+      default: {
+        uri: 'mongodb://192.168.2.203:32787/testmg',
+        options: {
+          //useNewUrlParser: true,
+          //useUnifiedTopology: true,
+          // user: '***********',
+          // pass: '***********'
+        },
+        // 关联实体
+        entities: [ '**/modules/*/mgEntity' ]
+      }
+    }
+  },
   keys: '138d8cb04bcc11ef88a93729a0ce3479',
   koa: {
     port: 8001,
@@ -21,7 +37,27 @@ export default {
       zh_CN: {
         default: require('../locales/zh_CN'),
       }
-    }
+    },
+    // 语言映射，可以用 * 号通配
+    fallbacks: {
+      //   'en_*': 'en_US',
+      //   pt: 'pt-BR',
+    },
+    // 是否将请求参数写入 cookie
+    writeCookie: true,
+    resolver: {
+      // url query 参数，默认是 "locale"
+      queryField: 'locale',
+      cookieField: {
+        // Cookie 里的 key，默认是 "locale"
+        fieldName: 'locale',
+        // Cookie 域名，默认为空，代表当前域名有效
+        cookieDomain: '',
+        // Cookie 默认的过期时间，默认一年
+        cookieMaxAge: FORMAT.MS.ONE_YEAR,
+      },
+    },
+    localsField: 'i18n',
   },
   // 模板渲染
   view: {

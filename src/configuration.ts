@@ -15,7 +15,7 @@ import { IMidwayApplication } from '@midwayjs/core';
 // import * as swagger from '@midwayjs/swagger';
 // import * as rpc from '@cool-midway/rpc';
 // import * as task from '@cool-midway/task';
-
+import * as typegoose from '@midwayjs/typegoose';
 @Configuration({
   imports: [
     // https://koajs.com/
@@ -36,6 +36,7 @@ import { IMidwayApplication } from '@midwayjs/core';
     upload,
     // cool-admin 官方组件 https://cool-js.com
     cool,
+    typegoose,
     // rpc 微服务 远程调用
     // rpc,
     // 任务与队列
