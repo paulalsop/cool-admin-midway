@@ -11,6 +11,18 @@ export default {
   koa: {
     port: 8001,
   },
+  i18n: {
+    // 把你的翻译文本放到这里
+    defaultLocale: 'en_US',
+    localeTable: {
+      en_US: {
+        default: require('../locales/en_US'),
+      },
+      zh_CN: {
+        default: require('../locales/zh_CN'),
+      }
+    }
+  },
   // 模板渲染
   view: {
     mapping: {

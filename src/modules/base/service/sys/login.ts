@@ -18,12 +18,24 @@ import { CachingFactory, MidwayCache } from '@midwayjs/cache-manager';
 import { readFileSync } from 'fs';
 const { svg2png, initialize } = require('svg2png-wasm');
 initialize(readFileSync('./node_modules/svg2png-wasm/svg2png_wasm_bg.wasm'));
+import { Configuration } from '@midwayjs/core';
+import * as i18n from '@midwayjs/i18n';
+import { MidwayI18nService } from '@midwayjs/i18n';
 
+@Configuration({
+  imports:[
+    i18n
+  ]
+})
 /**
  * 登录
  */
 @Provide()
 export class BaseSysLoginService extends BaseService {
+
+  @Inject()
+  i18nService: MidwayI18nService;
+
   @InjectClient(CachingFactory, 'default')
   midwayCache: MidwayCache;
 
@@ -50,6 +62,9 @@ export class BaseSysLoginService extends BaseService {
    * @param login
    */
   async login(login: LoginDTO) {
+    
+
+    
     const { username, captchaId, verifyCode, password } = login;
     // 校验验证码
     const checkV = await this.captchaCheck(captchaId, verifyCode);
@@ -59,10 +74,12 @@ export class BaseSysLoginService extends BaseService {
       if (user) {
         // 校验用户状态及密码
         if (user.status === 0 || user.password !== md5(password)) {
-          throw new CoolCommException('账户或密码不正确~');
+          throw new CoolCommException(this.i18nService.translate('mmbzq',{locale: 'en_US',}));
+          // throw new CoolCommException('账户或密码不正确~');
         }
       } else {
-        throw new CoolCommException('账户或密码不正确~');
+        throw new CoolCommException(this.i18nService.translate('mmbzq'));
+        // throw new CoolCommException('账户或密码不正确~');
       }
       // 校验角色
       const roleIds = await this.baseSysRoleService.getByUser(user.id);
